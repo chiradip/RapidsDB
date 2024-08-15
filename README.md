@@ -10,4 +10,14 @@ This is written as a learning and teaching tool but not a toy.
 1. You can contribute to enhance it
 2. Use it as is or with modification - report how you are using it
 3. Use it as a learning or teaching tool
+## How to run?
+1. mvn clean 
+2. mvn test
+## Where to look for code?
+1. SkipList.java 
+2. SkipListEntry.java
+3. SkipListMap.java
+## Test Cases
+1. SkipListTest.java 
+2. SkipListMapTest.java 
 
