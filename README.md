@@ -1,4 +1,4 @@
-# RapidsDB
+# Space-rfDB
 A configurable write optimized or read optimized Database.
 This is written as a learning and teaching tool but not a toy.
 ## Traits
