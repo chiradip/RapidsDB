@@ -6,9 +6,9 @@ import java.util.Random;
 public class SkipList<K extends Comparable<K>, V> {
     public SkipListEntry<K, V> head;
     public SkipListEntry<K, V> tail;
-    public int n = 0;   // size
-    public int h = 0;   // height
-    public Random r = new Random();
+    private int n = 0;   // size
+    private int h = 0;   // height
+    private final Random r = new Random();
 
     @SuppressWarnings("unchecked")
     public SkipList() {
