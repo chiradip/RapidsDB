@@ -203,23 +203,9 @@ public class BloomFilter<E> implements Serializable {
                 return false;
         return true;
     }
-    public boolean getBit(int bit) {
-        return bitSet.get(bit);
-    }
-    public void setBit(int bit, boolean value) {
-        bitSet.set(bit, value);
-    }
-    public BitSet getBitSet() {
-        return bitSet;
-    }
-    public void setBitSet(BitSet bitSet) {
-        this.bitSet = bitSet;
-    }
-
-    public BloomFilterInfo<E> getMetaInfo() {
-        return metaInfo;
-    }
-
+    public boolean getBit(int bit) { return bitSet.get(bit); }
+    public void setBit(int bit, boolean value) { bitSet.set(bit, value); }
+    public BloomFilterInfo<E> getMetaInfo() { return metaInfo; }
     public BloomFilter(BitSet bitSet, BloomFilterInfo<E> metaInfo) {
         this.bitSet = bitSet;
         this.metaInfo = metaInfo;
