@@ -13,6 +13,7 @@ import static java.lang.StrictMath.log;
 import static java.lang.StrictMath.pow;
 
 public class BloomFilter<E> implements Serializable {
+
     private BitSet bitSet;
     private static final Charset charset = StandardCharsets.UTF_8;
     private static final MessageDigest messageDigest;
@@ -24,7 +25,7 @@ public class BloomFilter<E> implements Serializable {
         }
     }
 
-    private final BloomFilterInfo metaInfo;
+    private final BloomFilterInfo<E> metaInfo;
     /**
      * @param e - false positive probability
      * @param n - number of expected records
@@ -66,6 +67,7 @@ public class BloomFilter<E> implements Serializable {
         this(m, n); bitSet = data; metaInfo.size = n1;
     }
 
+
     /**
      * @param m - Size Of BitSet
      * @param bitsPerRecord - bit.s.Per.Record.
@@ -78,7 +80,14 @@ public class BloomFilter<E> implements Serializable {
         //this.m = m; this.n = n; this.k = k;
         bitSet = new BitSet(n * bitsPerRecord);
         //this.e = e;
-        metaInfo = new BloomFilterInfo(m, n, k, e, bitsPerRecord, charset, messageDigest);
+        metaInfo = new BloomFilterInfo<>(bitSet, m, n, k, e, bitsPerRecord, charset.displayName(), messageDigest.getAlgorithm());
+    }
+    private BloomFilter(int m, int bitsPerRecord, int n, int k, float e, BitSet bitSet) {
+        //this.bitsPerRecord = bitsPerRecord;
+        //this.m = m; this.n = n; this.k = k;
+        this.bitSet = bitSet; //new BitSet(n * bitsPerRecord);
+        //this.e = e;
+        metaInfo = new BloomFilterInfo<>(bitSet, m, n, k, e, bitsPerRecord, charset.displayName(), messageDigest.getAlgorithm());
     }
     /**
      * @param m - BitSet size
@@ -203,8 +212,16 @@ public class BloomFilter<E> implements Serializable {
     public BitSet getBitSet() {
         return bitSet;
     }
+    public void setBitSet(BitSet bitSet) {
+        this.bitSet = bitSet;
+    }
 
     public BloomFilterInfo getMetaInfo() {
         return metaInfo;
+    }
+
+    public BloomFilter(BitSet bitSet, BloomFilterInfo metaInfo) {
+        this.bitSet = bitSet;
+        this.metaInfo = metaInfo;
     }
 }
