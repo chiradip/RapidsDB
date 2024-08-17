@@ -12,7 +12,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 */**/*.bak
-*.bak 
+*.bak
+*.ser
+*/**/*.ser 
 # AWS User-specific
 .idea/**/aws.xml
 
