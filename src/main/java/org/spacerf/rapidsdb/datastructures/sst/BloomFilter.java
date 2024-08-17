@@ -216,11 +216,11 @@ public class BloomFilter<E> implements Serializable {
         this.bitSet = bitSet;
     }
 
-    public BloomFilterInfo getMetaInfo() {
+    public BloomFilterInfo<E> getMetaInfo() {
         return metaInfo;
     }
 
-    public BloomFilter(BitSet bitSet, BloomFilterInfo metaInfo) {
+    public BloomFilter(BitSet bitSet, BloomFilterInfo<E> metaInfo) {
         this.bitSet = bitSet;
         this.metaInfo = metaInfo;
     }
