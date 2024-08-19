@@ -10,6 +10,7 @@ public class SkipList<K extends Comparable<K>, V> {
     private int h = 0;   // height
     private final Random r = new Random();
 
+    private boolean writeProtected = false;
     @SuppressWarnings("unchecked")
     public SkipList() {
         this.head = new SkipListEntry<>((K)SkipListEntry.leftFence, null);
@@ -44,7 +45,6 @@ public class SkipList<K extends Comparable<K>, V> {
                     p.right.key.compareTo(k) <= 0) {
                 p = p.right;
             }
-
             // go all the way down
             if (p.down != null) p = p.down;
             else break;
@@ -66,8 +66,9 @@ public class SkipList<K extends Comparable<K>, V> {
      * @param v - value
      * @return - Integer, null if the entry(key) is new, old value if the key existed
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public V put(K k, V v) {
+        if (writeProtected) throw new RuntimeException("Write Protected");
         if (k==null) return null; // null keys are terminal keys
         SkipListEntry<K, V> p = findEntry(k);
         if (k.equals(p.getKey())) {
@@ -75,25 +76,23 @@ public class SkipList<K extends Comparable<K>, V> {
             p.value = v;
             return (old);
         }
-
         // Create the new Entry and insert it right after p
         SkipListEntry<K, V> q = new SkipListEntry<>(k, v);
         q.left = p;
         q.right = p.right;
         p.right.left = q;
         p.right = q;
-
         int i = 0;                   // Current level = 0
-
         while (r.nextDouble() < 0.5) { // the coin flip 0/1
             // if height exceeds the current height, create the NEW EMPTY UPPER level
             if (i >= h) {
-                SkipListEntry<K, V> p1, p2;
                 h = h + 1;
                 // creating the left most and right most element for the new level
                 // reassigning head and tail with newly created elements
-                p1 = new SkipListEntry<>((K)SkipListEntry.leftFence, null);
-                p2 = new SkipListEntry<>((K)SkipListEntry.rightFence, null);
+                @SuppressWarnings("unchecked")
+                SkipListEntry<K, V> p1 = new SkipListEntry<>((K)SkipListEntry.leftFence, null);
+                @SuppressWarnings("unchecked")
+                SkipListEntry<K, V> p2 = new SkipListEntry<>((K)SkipListEntry.rightFence, null);
 
                 p1.right = p2; p1.down = head;
                 p2.left = p1; p2.down = tail;
@@ -115,8 +114,12 @@ public class SkipList<K extends Comparable<K>, V> {
     }
     /**
      * Removes the key-value pair with a specified key.
+     * @param key - the key of the SkioList
+     * @return - if (exists (key)) return the (value)--associated-with-->(key)
+     *           else return NULL
      */
     public V remove(K key) {
+        if (writeProtected) throw new RuntimeException("Write Protected");
         SkipListEntry<K, V> p = findEntry(key);
         if (!Objects.equals(p.getKey(), key))
             return null;
@@ -131,5 +134,13 @@ public class SkipList<K extends Comparable<K>, V> {
         p.right.left = p.left;
         n = n -1; // decrease the size
         return ret;
+    }
+
+    public boolean isWriteProtected() {
+        return writeProtected;
+    }
+
+    public void setWriteProtected(boolean writeProtected) {
+        this.writeProtected = writeProtected;
     }
 }

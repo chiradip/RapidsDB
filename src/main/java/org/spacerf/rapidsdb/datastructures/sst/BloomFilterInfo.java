@@ -1,6 +1,6 @@
 package org.spacerf.rapidsdb.datastructures.sst;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.BitSet;
 
 public class BloomFilterInfo<E> implements Serializable {
@@ -40,5 +40,13 @@ public class BloomFilterInfo<E> implements Serializable {
 
     public BloomFilter<E> getInstance() {
         return new BloomFilter<>(bitSet, this);
+    }
+    public void serializeToFile(String bloomFile) {
+        try(FileOutputStream outFile = new FileOutputStream(bloomFile)) {
+            ObjectOutputStream out2 = new ObjectOutputStream(outFile);
+            out2.writeObject(this);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

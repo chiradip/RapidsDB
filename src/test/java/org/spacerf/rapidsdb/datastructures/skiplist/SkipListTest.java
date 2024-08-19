@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class SkipListTest {
     SkipList<String, Integer> skipList  = new SkipList<>();
     SkipListPrintUtils<String, Integer> S = new SkipListPrintUtils<>(skipList);
-
     @Test
     void emptyRemove() {
         Integer res = skipList.remove("ABC");

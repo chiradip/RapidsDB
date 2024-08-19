@@ -1,12 +1,13 @@
 package org.spacerf.rapidsdb.datastructures.skiplist;
 
+
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class SkipListMap<K extends Comparable<K>,V> /*extends SkipList<K,V>*/ implements Map<K,V> {
-    SkipList<K, V> skipList = new SkipList<>();
+public class SkipListMap<K extends Comparable<K>,V> implements Map<K,V> {
+    private final SkipList<K, V> skipList = new SkipList<>();
 
     @Override
     public int size() {
@@ -25,7 +26,6 @@ public class SkipListMap<K extends Comparable<K>,V> /*extends SkipList<K,V>*/ im
         return v != null;
     }
     @Override
-    //@SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         SkipListEntry<K, V> head = skipList.head;
         while (head.down != null) head = head.down;
@@ -115,7 +115,6 @@ public class SkipListMap<K extends Comparable<K>,V> /*extends SkipList<K,V>*/ im
     }
     @Override
     public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        //SkipListIntf.super.replaceAll(function);
         throw new RuntimeException("Not Implemented");
     }
     @Override
@@ -134,9 +133,7 @@ public class SkipListMap<K extends Comparable<K>,V> /*extends SkipList<K,V>*/ im
         if (skipList.get(key) != oldValue) return false;
         return skipList.put(key, newValue) != null;
     }
-
     /**
-     *
      * @param key key with which the specified value is associated
      * @param value value to be associated with the specified key
      * @return oldValue: V
