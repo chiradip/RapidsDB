@@ -1,5 +1,7 @@
 package org.spacerf.rapidsdb.datastructures.skiplist;
 
+import org.apache.arrow.vector.types.pojo.Schema;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -9,7 +11,7 @@ public class SkipList<K extends Comparable<K>, V> {
     private int n = 0;   // size
     private int h = 0;   // height
     private final Random r = new Random();
-
+    private Schema schema = null;
     private boolean writeProtected = false;
     @SuppressWarnings("unchecked")
     public SkipList() {
@@ -17,6 +19,23 @@ public class SkipList<K extends Comparable<K>, V> {
         this.tail = new SkipListEntry<>((K)SkipListEntry.rightFence, null);
         head.right = tail;
         tail.left = head;
+    }
+
+    /**
+     *
+     * @param schema  - Arrow Schema if the value is of Arrow Type
+     */
+    public SkipList(Schema schema) {
+        this();
+        this.schema = schema;
+    }
+
+    /**
+     *
+     * @return Arrow Schema - if the schema is null then
+     */
+    public Schema getSchema() {
+        return schema;
     }
     /**
      * @return number of entries in the Skip List

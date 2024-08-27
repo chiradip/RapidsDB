@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.TreeMap;
 
-public class SearchSST <K extends Comparable<K>, V> {
+public class SearchSST <K extends Comparable<K>> {
     private final String sstFileName;
     private final String bloomFilerFileName;
     private final String indexFileName;
@@ -23,9 +23,7 @@ public class SearchSST <K extends Comparable<K>, V> {
     }
 
     private void loadIndex() throws IOException {
-        try (RandomAccessFile raFile = new RandomAccessFile(indexFileName, "r");
-             FileInputStream fc = new FileInputStream(indexFileName)) {
-            FileChannel fileChannel = fc.getChannel();
+        try (RandomAccessFile raFile = new RandomAccessFile(indexFileName, "r")) {
             String line = raFile.readLine();
             while (line != null) {
                 String[] elements = line.split(">");
@@ -68,7 +66,7 @@ public class SearchSST <K extends Comparable<K>, V> {
                 //System.out.println("pos = " + pos);
                 byteBuffer.put("\n".getBytes());
                 byteBuffer.flip();
-                int numBytesWritten = channel.write(byteBuffer);
+                int numBytesWritten = channel.write(byteBuffer); // this line is important
                 pos = channel.position();
                 //System.out.println("pos 2= " + pos);
                 line = raFile.readLine();

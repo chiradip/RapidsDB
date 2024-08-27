@@ -79,7 +79,7 @@ class SearchSSTTest {
 
     @Test
     void search() throws IOException, ClassNotFoundException {
-        SearchSST<String, String> searchSST = new SearchSST<>(fileName + ".sst",
+        SearchSST<String> searchSST = new SearchSST<>(fileName + ".sst",
                 fileName + ".bloom", fileName+".index");
         for (Map.Entry<String, String> pair: kvs.entrySet()) {
             System.out.println("pair.getKey() = " + pair.getKey());
